@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using MVC02.Contexts;
+using MVC02.Repositories.Classes;
+using MVC02.Repositories.Interfaces;
+
 namespace MVC02
 {
     public class Program
@@ -8,6 +13,14 @@ namespace MVC02
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            #region MyRegion
+            builder.Services.AddDbContext<GymDbContext>(options => 
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+            builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+            builder.Services.AddScoped<IMembershipRepository, MembershipRepository>();
+            #endregion
 
             var app = builder.Build();
 
